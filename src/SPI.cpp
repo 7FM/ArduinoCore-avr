@@ -34,14 +34,14 @@ void SPIClass::begin() {
 
         // if the SS pin is not already configured as an output
         // then set it high (to enable the internal pull-up resistor)
-        if (!(*reg & bit)) {
-            digitalWrite(SS, HIGH);
+        if (!(*FastPin<SS>::port() & FastPin<SS>::mask())) {
+            FastPin<SS>::hi();
         }
 
         // When the SS pin is set as OUTPUT, it can be used as
         // a general purpose output port (it doesn't influence
         // SPI operations).
-        pinMode(SS, OUTPUT);
+        FastPin<SS>::setOutput();
 
         // Warning: if the SS pin ever becomes a LOW INPUT then SPI
         // automatically switches to Slave, so the data direction of
@@ -55,8 +55,8 @@ void SPIClass::begin() {
         // clocking in a single bit since the lines go directly
         // from "input" to SPI control.
         // http://code.google.com/p/arduino/issues/detail?id=888
-        pinMode(SCK, OUTPUT);
-        pinMode(MOSI, OUTPUT);
+        FastPin<SCK>::setOutput();
+        FastPin<MOSI>::setOutput();
     }
     initialized++; // reference count
     SREG = sreg;

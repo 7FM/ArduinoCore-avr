@@ -15,6 +15,7 @@
 #define _SPI_H_INCLUDED
 
 #include <Arduino.h>
+#include <FastPin.h>
 
 // SPI_HAS_TRANSACTION means SPI has beginTransaction(), endTransaction(),
 // usingInterrupt(), and SPISetting(clock, bitOrder, dataMode)
@@ -194,8 +195,8 @@ class SPIClass {
 
 #ifdef SPI_TRANSACTION_MISMATCH_LED
         if (inTransactionFlag) {
-            pinMode(SPI_TRANSACTION_MISMATCH_LED, OUTPUT);
-            digitalWrite(SPI_TRANSACTION_MISMATCH_LED, HIGH);
+            FastPin<SPI_TRANSACTION_MISMATCH_LED>::setOutput();
+            FastPin<SPI_TRANSACTION_MISMATCH_LED>::hi();
         }
         inTransactionFlag = 1;
 #endif
@@ -274,8 +275,8 @@ class SPIClass {
     inline static void endTransaction(void) {
 #ifdef SPI_TRANSACTION_MISMATCH_LED
         if (!inTransactionFlag) {
-            pinMode(SPI_TRANSACTION_MISMATCH_LED, OUTPUT);
-            digitalWrite(SPI_TRANSACTION_MISMATCH_LED, HIGH);
+            FastPin<SPI_TRANSACTION_MISMATCH_LED>::setOutput();
+            FastPin<SPI_TRANSACTION_MISMATCH_LED>::hi();
         }
         inTransactionFlag = 0;
 #endif
